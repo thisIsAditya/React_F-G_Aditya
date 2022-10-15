@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Box,
+  Button,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -38,6 +39,10 @@ const FeedbackForm = () => {
       ...form,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSubmit = () => {
+    // Some Code here
   };
   return (
     <>
@@ -106,7 +111,6 @@ const FeedbackForm = () => {
               </Stack>
             </Stack>
           </Grid>
-
           {/* Right Side */}
           <Grid item xs={12} md={6}>
             <Stack spacing={4} sx={{ padding: "12px" }}>
@@ -120,10 +124,8 @@ const FeedbackForm = () => {
               />
             </Stack>
           </Grid>
-        </Grid>
-        <Grid container>
+          {/* Left Side */}
           <Grid item xs={12} md={6}>
-            {/* Left Side */}
             <Stack spacing={4} sx={{ padding: "12px" }}>
               <FormControl>
                 <FormLabel>
@@ -184,8 +186,8 @@ const FeedbackForm = () => {
               </FormControl>
             </Stack>
           </Grid>
+          {/* Right Side */}
           <Grid item xs={12} md={6}>
-            {/* Right Side */}
             <Stack spacing={4} sx={{ padding: "12px" }}>
               <FormControl>
                 <FormLabel>Please rate the quality of your beverage</FormLabel>
@@ -244,6 +246,23 @@ const FeedbackForm = () => {
                   />
                 </RadioGroup>
               </FormControl>
+            </Stack>
+          </Grid>
+          {/* Submit Button  */}
+          <Grid item xs={12}>
+            <Stack
+              direction="row"
+              justifyContent={"end"}
+              sx={{ padding: "12px" }}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleSubmit}
+                sx={{ width: "fit-content" }}
+              >
+                Submit
+              </Button>
             </Stack>
           </Grid>
         </Grid>
