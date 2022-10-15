@@ -1,1 +1,3 @@
-export const bar = "foo";
+import { countries } from "./countries";
+
+export { countries };
