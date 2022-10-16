@@ -13,11 +13,9 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+
 import { styled } from "@mui/system";
-import { countries } from "../constants";
+import { countries } from "../../constants";
 import { useState } from "react";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -103,13 +101,6 @@ const FeedbackForm = () => {
   };
   return (
     <>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Aromatic Bar
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <StyledPaper>
         <Grid container>
           {/* Left Side */}
