@@ -3,25 +3,25 @@ import {
   Box,
   Button,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  FormLabel,
   Grid,
   Paper,
-  Radio,
-  RadioGroup,
   Stack,
   TextField,
 } from "@mui/material";
-
 import { styled } from "@mui/system";
 import { countries } from "../../constants";
 import { useState } from "react";
 import { isEmail } from "utils";
 import { isValidName } from "utils/form";
+import RatingRadioGroup from "./rating-radio-group";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4, 2),
+}));
+
+const StyledItemStack = styled(Stack)(({ theme }) => ({
+  padding: theme.spacing(4),
 }));
 
 const FeedbackForm = () => {
@@ -122,7 +122,7 @@ const FeedbackForm = () => {
         <Grid container>
           {/* Left Side */}
           <Grid item xs={12} md={6}>
-            <Stack spacing={4} sx={{ padding: "12px" }}>
+            <StyledItemStack spacing={4}>
               {/* Name */}
               <FormControl>
                 <TextField
@@ -187,11 +187,11 @@ const FeedbackForm = () => {
                   </FormHelperText>
                 </FormControl>
               </Stack>
-            </Stack>
+            </StyledItemStack>
           </Grid>
           {/* Right Side */}
           <Grid item xs={12} md={6}>
-            <Stack spacing={4} sx={{ padding: "12px" }}>
+            <StyledItemStack spacing={4}>
               {/* Email */}
               <FormControl>
                 <TextField
@@ -207,144 +207,43 @@ const FeedbackForm = () => {
                   {error.email}
                 </FormHelperText>
               </FormControl>
-            </Stack>
+            </StyledItemStack>
           </Grid>
           {/* Left Side */}
           <Grid item xs={12} md={6}>
-            <Stack spacing={4} sx={{ padding: "12px" }}>
-              <FormControl>
-                <FormLabel>
-                  Please rate the quality of service you recieved from the host
-                </FormLabel>
-                <RadioGroup
-                  row
-                  name="serviceQuality"
-                  onChange={handleChange}
-                  value={form.serviceQuality}
-                >
-                  <FormControlLabel
-                    value="excellent"
-                    control={<Radio />}
-                    label="Excellent"
-                  />
-                  <FormControlLabel
-                    value="good"
-                    control={<Radio />}
-                    label="Good"
-                  />
-                  <FormControlLabel
-                    value="fair"
-                    control={<Radio />}
-                    label="Fair"
-                  />
-                  <FormControlLabel
-                    value="bad"
-                    control={<Radio />}
-                    label="Bad"
-                  />
-                </RadioGroup>
-              </FormControl>
+            <StyledItemStack spacing={4}>
+              <RatingRadioGroup
+                label="Please rate the quality of service you recieved from the host"
+                value={form.serviceQuality}
+                handleChange={handleChange}
+                name="serviceQuality"
+              ></RatingRadioGroup>
 
-              <FormControl>
-                <FormLabel>Was our restraunt clean?</FormLabel>
-                <RadioGroup
-                  row
-                  name="restrauntCleanliness"
-                  onChange={handleChange}
-                  value={form.restrauntCleanliness}
-                >
-                  <FormControlLabel
-                    value="excellent"
-                    control={<Radio />}
-                    label="Excellent"
-                  />
-                  <FormControlLabel
-                    value="good"
-                    control={<Radio />}
-                    label="Good"
-                  />
-                  <FormControlLabel
-                    value="fair"
-                    control={<Radio />}
-                    label="Fair"
-                  />
-                  <FormControlLabel
-                    value="bad"
-                    control={<Radio />}
-                    label="Bad"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Stack>
+              <RatingRadioGroup
+                label="Was our restraunt clean?"
+                value={form.restrauntCleanliness}
+                handleChange={handleChange}
+                name="restrauntCleanliness"
+              ></RatingRadioGroup>
+            </StyledItemStack>
           </Grid>
           {/* Right Side */}
           <Grid item xs={12} md={6}>
-            <Stack spacing={4} sx={{ padding: "12px" }}>
-              <FormControl>
-                <FormLabel>Please rate the quality of your beverage</FormLabel>
+            <StyledItemStack spacing={4}>
+              <RatingRadioGroup
+                label="Please rate the quality of your beverage"
+                value={form.beverageQuality}
+                handleChange={handleChange}
+                name="beverageQuality"
+              ></RatingRadioGroup>
 
-                <RadioGroup
-                  row
-                  name="beverageQuality"
-                  onChange={handleChange}
-                  value={form.beverageQuality}
-                >
-                  <FormControlLabel
-                    value="excellent"
-                    control={<Radio />}
-                    label="Excellent"
-                  />
-                  <FormControlLabel
-                    value="good"
-                    control={<Radio />}
-                    label="Good"
-                  />
-                  <FormControlLabel
-                    value="fair"
-                    control={<Radio />}
-                    label="Fair"
-                  />
-                  <FormControlLabel
-                    value="bad"
-                    control={<Radio />}
-                    label="Bad"
-                  />
-                </RadioGroup>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>
-                  Please rete the overall dining experience.
-                </FormLabel>
-                <RadioGroup
-                  row
-                  name="overallExperience"
-                  onChange={handleChange}
-                  value={form.overallExperience}
-                >
-                  <FormControlLabel
-                    value="excellent"
-                    control={<Radio />}
-                    label="Excellent"
-                  />
-                  <FormControlLabel
-                    value="good"
-                    control={<Radio />}
-                    label="Good"
-                  />
-                  <FormControlLabel
-                    value="fair"
-                    control={<Radio />}
-                    label="Fair"
-                  />
-                  <FormControlLabel
-                    value="bad"
-                    control={<Radio />}
-                    label="Bad"
-                  />
-                </RadioGroup>
-              </FormControl>
-            </Stack>
+              <RatingRadioGroup
+                label="Please rete the overall dining experience."
+                value={form.overallExperience}
+                handleChange={handleChange}
+                name="overallExperience"
+              ></RatingRadioGroup>
+            </StyledItemStack>
           </Grid>
           {/* Submit Button  */}
           <Grid item xs={12}>
