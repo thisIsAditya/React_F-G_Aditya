@@ -9,7 +9,7 @@ const StyledTypography = styled(Typography)(() => ({
 
 function Header() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ height: "10vh" }}>
       <Toolbar>
         <StyledTypography variant="h6" component="div">
           Aromatic Bar
