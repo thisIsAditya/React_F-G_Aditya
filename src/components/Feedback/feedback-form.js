@@ -17,6 +17,8 @@ import {
 import { styled } from "@mui/system";
 import { countries } from "../../constants";
 import { useState } from "react";
+import { isEmail } from "utils";
+import { isValidName } from "utils/form";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4, 2),
@@ -27,10 +29,10 @@ const FeedbackForm = () => {
     name: "",
     phone: "",
     email: "",
-    restrauntCleanliness: "",
-    serviceQuality: "",
-    beverageQuality: "",
-    overallExperience: "",
+    restrauntCleanliness: "excellent",
+    serviceQuality: "excellent",
+    beverageQuality: "excellent",
+    overallExperience: "excellent",
   });
 
   const [error, setError] = useState({
@@ -49,43 +51,58 @@ const FeedbackForm = () => {
   const handleValidation = (type) => {
     switch (type) {
       case "name":
-        if (!form.name.length) {
-          setError({
+        let nameError = {
+          ...error,
+          name: "",
+        };
+        if (!form.name) {
+          nameError = {
             ...error,
             name: "Name cannot be empty",
-          });
-        } else {
-          setError({
+          };
+        } else if (!isValidName(form.name)) {
+          nameError = {
             ...error,
-            name: "",
-          });
+            name: "Name cannot include special characters or numbers",
+          };
         }
+        setError(nameError);
         break;
       case "phone":
+        let phoneError = {
+          ...error,
+          phone: "",
+        };
         if (!form.phone) {
-          setError({
+          phoneError = {
             ...error,
             phone: "Phone cannot be empty",
-          });
-        } else {
-          setError({
+          };
+        } else if (!isValidName(form.phone)) {
+          phoneError = {
             ...error,
-            phone: "",
-          });
+            phone: "Invalid Phone Number",
+          };
         }
+        setError(phoneError);
         break;
       case "email":
+        let emailError = {
+          ...error,
+          email: "",
+        };
         if (!form.email) {
-          setError({
+          emailError = {
             ...error,
             email: "Email cannot be empty",
-          });
-        } else {
-          setError({
+          };
+        } else if (!isEmail(form.email)) {
+          emailError = {
             ...error,
-            email: "",
-          });
+            email: "Invalid email",
+          };
         }
+        setError(emailError);
         break;
       default:
         setError({
@@ -155,7 +172,7 @@ const FeedbackForm = () => {
                     />
                   )}
                 />
-                <FormControl>
+                <FormControl fullWidth>
                   <TextField
                     label="Phone Number"
                     variant="outlined"
@@ -163,7 +180,6 @@ const FeedbackForm = () => {
                     onBlur={() => handleValidation("phone")}
                     name="phone"
                     type="number"
-                    fullWidth
                   />
                   <FormHelperText error={Boolean(error.phone)} required>
                     &nbsp;
@@ -200,7 +216,12 @@ const FeedbackForm = () => {
                 <FormLabel>
                   Please rate the quality of service you recieved from the host
                 </FormLabel>
-                <RadioGroup row name="serviceQuality" onChange={handleChange}>
+                <RadioGroup
+                  row
+                  name="serviceQuality"
+                  onChange={handleChange}
+                  value={form.serviceQuality}
+                >
                   <FormControlLabel
                     value="excellent"
                     control={<Radio />}
@@ -230,6 +251,7 @@ const FeedbackForm = () => {
                   row
                   name="restrauntCleanliness"
                   onChange={handleChange}
+                  value={form.restrauntCleanliness}
                 >
                   <FormControlLabel
                     value="excellent"
@@ -260,7 +282,13 @@ const FeedbackForm = () => {
             <Stack spacing={4} sx={{ padding: "12px" }}>
               <FormControl>
                 <FormLabel>Please rate the quality of your beverage</FormLabel>
-                <RadioGroup row name="beverageQuality" onChange={handleChange}>
+
+                <RadioGroup
+                  row
+                  name="beverageQuality"
+                  onChange={handleChange}
+                  value={form.beverageQuality}
+                >
                   <FormControlLabel
                     value="excellent"
                     control={<Radio />}
@@ -292,6 +320,7 @@ const FeedbackForm = () => {
                   row
                   name="overallExperience"
                   onChange={handleChange}
+                  value={form.overallExperience}
                 >
                   <FormControlLabel
                     value="excellent"
