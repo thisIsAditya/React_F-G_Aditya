@@ -15,6 +15,7 @@ import { useState } from "react";
 import { isEmail } from "utils";
 import { isValidName, isValidPhone } from "utils/form";
 import RatingRadioGroup from "./rating-radio-group";
+import { useNavigate } from "react-router-dom";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4, 2),
@@ -25,6 +26,7 @@ const StyledItemStack = styled(Stack)(({ theme }) => ({
 }));
 
 const FeedbackForm = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -44,6 +46,7 @@ const FeedbackForm = () => {
     name: "",
     phone: "",
     email: "",
+    submit: "",
   });
 
   const handleChange = (e, countryValue) => {
@@ -59,73 +62,126 @@ const FeedbackForm = () => {
     });
   };
 
+  const checkNameValidation = () => {
+    let nameError = {
+      ...error,
+      name: "",
+    };
+    if (!form.name) {
+      nameError = {
+        ...error,
+        name: "Name cannot be empty",
+      };
+    } else if (!isValidName(form.name)) {
+      nameError = {
+        ...error,
+        name: "Name cannot include special characters or numbers",
+      };
+    }
+    setError(nameError);
+    if (nameError.name) {
+      return false;
+    }
+    return true;
+  };
+
+  const checkPhoneValidation = () => {
+    let phoneError = {
+      ...error,
+      phone: "",
+    };
+    if (!form.phone) {
+      phoneError = {
+        ...error,
+        phone: "Phone cannot be empty",
+      };
+    } else if (!isValidPhone(form.phone)) {
+      phoneError = {
+        ...error,
+        phone: "Invalid Phone Number",
+      };
+    }
+    setError(phoneError);
+    if (phoneError.phone) {
+      return false;
+    }
+    return true;
+  };
+
+  const checkEmailValidation = () => {
+    let emailError = {
+      ...error,
+      email: "",
+    };
+    if (!form.email) {
+      emailError = {
+        ...error,
+        email: "Email cannot be empty",
+      };
+    } else if (!isEmail(form.email)) {
+      emailError = {
+        ...error,
+        email: "Invalid email",
+      };
+    }
+    setError(emailError);
+    if (emailError.email) {
+      return false;
+    }
+    return true;
+  };
+
   const handleValidation = (type) => {
+    let formValidated = false;
     switch (type) {
       case "name":
-        let nameError = {
-          ...error,
-          name: "",
-        };
-        if (!form.name) {
-          nameError = {
-            ...error,
-            name: "Name cannot be empty",
-          };
-        } else if (!isValidName(form.name)) {
-          nameError = {
-            ...error,
-            name: "Name cannot include special characters or numbers",
-          };
-        }
-        setError(nameError);
+        formValidated = checkNameValidation();
         break;
       case "phone":
-        let phoneError = {
-          ...error,
-          phone: "",
-        };
-        if (!form.phone) {
-          phoneError = {
-            ...error,
-            phone: "Phone cannot be empty",
-          };
-        } else if (!isValidPhone(form.phone)) {
-          phoneError = {
-            ...error,
-            phone: "Invalid Phone Number",
-          };
-        }
-        setError(phoneError);
+        formValidated = checkPhoneValidation();
         break;
       case "email":
-        let emailError = {
-          ...error,
-          email: "",
-        };
-        if (!form.email) {
-          emailError = {
-            ...error,
-            email: "Email cannot be empty",
-          };
-        } else if (!isEmail(form.email)) {
-          emailError = {
-            ...error,
-            email: "Invalid email",
-          };
-        }
-        setError(emailError);
+        formValidated = checkEmailValidation();
         break;
       default:
-        setError({
-          name: "",
-          phone: "",
-          email: "",
-        });
+        if (
+          !checkNameValidation() ||
+          !checkPhoneValidation() ||
+          !checkEmailValidation()
+        ) {
+          formValidated = false;
+        } else {
+          formValidated = true;
+        }
     }
+    return formValidated;
   };
 
   const handleSubmit = () => {
-    // Some Code here
+    if (!handleValidation()) {
+      setError({
+        ...error,
+        submit: "Please fill the form correctly",
+      });
+      return;
+    }
+    if (error.name || error.phone || error.email) {
+      setError({
+        ...error,
+        submit: "Please fill the form correctly",
+      });
+      return;
+    }
+    setError({
+      ...error,
+      submit: "",
+    });
+    const formData = {
+      ...form,
+      country: form.country.phone,
+    };
+    console.log(formData, "This is formData");
+    navigate("/success");
   };
   return (
     <>
@@ -261,11 +317,16 @@ const FeedbackForm = () => {
           </Grid>
           {/* Submit Button  */}
           <Grid item xs={12}>
-            <Stack
+            <StyledItemStack
               direction="row"
               justifyContent={"end"}
-              sx={{ padding: "12px" }}
+              spacing={2}
+              alignItems="baseline"
             >
+              <FormHelperText error={Boolean(error.submit)} required>
+                &nbsp;
+                {error.submit}
+              </FormHelperText>
               <Button
                 variant="contained"
                 color="success"
@@ -274,7 +335,7 @@ const FeedbackForm = () => {
               >
                 Submit
               </Button>
-            </Stack>
+            </StyledItemStack>
           </Grid>
         </Grid>
       </StyledPaper>
