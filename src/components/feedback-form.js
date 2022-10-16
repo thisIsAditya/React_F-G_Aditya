@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   FormLabel,
   Grid,
   Paper,
@@ -34,11 +35,67 @@ const FeedbackForm = () => {
     overallExperience: "",
   });
 
+  const [error, setError] = useState({
+    name: "",
+    phone: "",
+    email: "",
+  });
+
   const handleChange = (e) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleValidation = (type) => {
+    switch (type) {
+      case "name":
+        if (!form.name.length) {
+          setError({
+            ...error,
+            name: "Name cannot be empty",
+          });
+        } else {
+          setError({
+            ...error,
+            name: "",
+          });
+        }
+        break;
+      case "phone":
+        if (!form.phone) {
+          setError({
+            ...error,
+            phone: "Phone cannot be empty",
+          });
+        } else {
+          setError({
+            ...error,
+            phone: "",
+          });
+        }
+        break;
+      case "email":
+        if (!form.email) {
+          setError({
+            ...error,
+            email: "Email cannot be empty",
+          });
+        } else {
+          setError({
+            ...error,
+            email: "",
+          });
+        }
+        break;
+      default:
+        setError({
+          name: "",
+          phone: "",
+          email: "",
+        });
+    }
   };
 
   const handleSubmit = () => {
@@ -59,13 +116,20 @@ const FeedbackForm = () => {
           <Grid item xs={12} md={6}>
             <Stack spacing={4} sx={{ padding: "12px" }}>
               {/* Name */}
-              <TextField
-                label="Name"
-                variant="outlined"
-                onChange={handleChange}
-                name="name"
-                fullWidth
-              />
+              <FormControl>
+                <TextField
+                  label="Name"
+                  variant="outlined"
+                  onChange={handleChange}
+                  onBlur={() => handleValidation("name")}
+                  name="name"
+                  fullWidth
+                />
+                <FormHelperText error={Boolean(error.name)} required>
+                  &nbsp;
+                  {error.name}
+                </FormHelperText>
+              </FormControl>
               {/* Phone Number */}
               <Stack direction="row" spacing={2}>
                 <Autocomplete
@@ -100,14 +164,21 @@ const FeedbackForm = () => {
                     />
                   )}
                 />
-                <TextField
-                  label="Phone Number"
-                  variant="outlined"
-                  onChange={handleChange}
-                  name="phone"
-                  type="number"
-                  fullWidth
-                />
+                <FormControl>
+                  <TextField
+                    label="Phone Number"
+                    variant="outlined"
+                    onChange={handleChange}
+                    onBlur={() => handleValidation("phone")}
+                    name="phone"
+                    type="number"
+                    fullWidth
+                  />
+                  <FormHelperText error={Boolean(error.phone)} required>
+                    &nbsp;
+                    {error.phone}
+                  </FormHelperText>
+                </FormControl>
               </Stack>
             </Stack>
           </Grid>
@@ -115,13 +186,20 @@ const FeedbackForm = () => {
           <Grid item xs={12} md={6}>
             <Stack spacing={4} sx={{ padding: "12px" }}>
               {/* Email */}
-              <TextField
-                label="Email"
-                variant="outlined"
-                onChange={handleChange}
-                name="email"
-                fullWidth
-              />
+              <FormControl>
+                <TextField
+                  label="Email"
+                  variant="outlined"
+                  onChange={handleChange}
+                  onBlur={() => handleValidation("email")}
+                  name="email"
+                  fullWidth
+                />
+                <FormHelperText error={Boolean(error.email)} required>
+                  &nbsp;
+                  {error.email}
+                </FormHelperText>
+              </FormControl>
             </Stack>
           </Grid>
           {/* Left Side */}
