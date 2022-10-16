@@ -4,8 +4,8 @@ import AdminPanel from "./components/admin-panel";
 import NotFound from "./components/not-found";
 import FormSuccess from "./components/form-success";
 import Layout from "Layout";
-import { useEffect, useState } from "react";
 import { isEmpty } from "utils";
+import { useEffect, useState } from "react";
 
 function App() {
   const [data, setData] = useState({});
@@ -16,15 +16,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!isEmpty(JSON.parse(localStorage.getItem("reviews")))) {
-      localStorage.setItem("reviews", JSON.stringify(data));
+    if (isEmpty(data)) {
+      return;
     }
+    localStorage.setItem("reviews", JSON.stringify(data));
   }, [data]);
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={Layout(FeedbackForm, { data, setData })} />
-        <Route path="/success" element={Layout(FormSuccess)} />
+        <Route path="/success" element={Layout(FormSuccess, { data })} />
         <Route path="/admin" element={Layout(AdminPanel, { data })} />
         <Route path="*" element={Layout(NotFound)} />
       </Routes>
