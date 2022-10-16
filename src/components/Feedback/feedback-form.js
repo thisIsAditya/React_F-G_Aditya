@@ -13,7 +13,7 @@ import { styled } from "@mui/system";
 import { countries } from "../../constants";
 import { useState } from "react";
 import { isEmail } from "utils";
-import { isValidName } from "utils/form";
+import { isValidName, isValidPhone } from "utils/form";
 import RatingRadioGroup from "./rating-radio-group";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -89,7 +89,7 @@ const FeedbackForm = () => {
             ...error,
             phone: "Phone cannot be empty",
           };
-        } else if (!isValidName(form.phone)) {
+        } else if (!isValidPhone(form.phone)) {
           phoneError = {
             ...error,
             phone: "Invalid Phone Number",
