@@ -20,7 +20,7 @@ const StyledItemStack = styled(Stack)(({ theme }) => ({
   padding: theme.spacing(4),
 }));
 
-const FeedbackForm = () => {
+const FeedbackForm = ({ data, setData }) => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
@@ -176,6 +176,10 @@ const FeedbackForm = () => {
       country: form.country.phone,
     };
     console.log(formData, "This is formData");
+    setData({
+      ...data,
+      [formData.email]: formData,
+    });
     navigate("/success");
   };
   return (

@@ -1,5 +1,4 @@
 export const adminTableCoulmns = [
-  { field: "id", headerName: "ID", width: 70 },
   { field: "name", headerName: "Name", width: 250 },
   { field: "country", headerName: "Country", width: 150 },
   {

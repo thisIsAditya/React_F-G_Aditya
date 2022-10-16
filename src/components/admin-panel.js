@@ -1,26 +1,21 @@
 import { DataGrid } from "@mui/x-data-grid";
 import { adminTableCoulmns } from "constants";
+import { useEffect, useState } from "react";
 
-const rows = [
-  { id: 1, name: "Snow" },
-  { id: 2, name: "Lannister" },
-  { id: 3, name: "Lannister" },
-  { id: 4, name: "Stark" },
-  { id: 5, name: "Targaryen" },
-  { id: 6, name: "Melisandre" },
-  { id: 7, name: "Clifford" },
-  { id: 8, name: "Frances" },
-  { id: 9, name: "Roxie" },
-];
-
-const AdminPanel = () => {
+const AdminPanel = ({ data }) => {
+  const [row, setRows] = useState([]);
+  useEffect(() => {
+    const rows = Object.keys(data).map((email) => data[email]);
+    setRows(rows);
+  }, [data]);
   return (
     <DataGrid
-      rows={rows}
+      rows={row}
       columns={adminTableCoulmns}
       pageSize={5}
       rowsPerPageOptions={[5]}
       checkboxSelection
+      getRowId={(row) => row.email}
     />
   );
 };

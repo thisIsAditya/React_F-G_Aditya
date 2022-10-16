@@ -1,2 +1,5 @@
 import { isEmail } from "./form";
-export { isEmail };
+
+const isEmpty = (object) => Boolean(Object.keys(object).length);
+
+export { isEmail, isEmpty };

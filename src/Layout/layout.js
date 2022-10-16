@@ -11,12 +11,12 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   boxSizing: "border-box",
   height: "90%",
 }));
-const Layout = (Comp) => {
+const Layout = (Comp, props) => {
   return (
     <StyledBox>
       <Header />
       <StyledPaper>
-        <Comp />
+        <Comp {...props} />
       </StyledPaper>
     </StyledBox>
   );
