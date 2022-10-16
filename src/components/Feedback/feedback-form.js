@@ -28,6 +28,11 @@ const FeedbackForm = () => {
   const [form, setForm] = useState({
     name: "",
     phone: "",
+    country: {
+      code: "IN",
+      label: "India",
+      phone: "91",
+    },
     email: "",
     restrauntCleanliness: "excellent",
     serviceQuality: "excellent",
@@ -41,7 +46,13 @@ const FeedbackForm = () => {
     email: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e, countryValue) => {
+    if (countryValue) {
+      setForm({
+        ...form,
+        country: countryValue,
+      });
+    }
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -143,6 +154,9 @@ const FeedbackForm = () => {
                 <Autocomplete
                   sx={{ width: 150 }}
                   options={countries}
+                  value={form.country}
+                  onChange={(e, newValue) => handleChange(e, newValue)}
+                  name="country"
                   autoHighlight
                   getOptionLabel={(option) => option.phone}
                   renderOption={(props, option) => (
