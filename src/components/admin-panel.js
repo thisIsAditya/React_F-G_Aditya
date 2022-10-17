@@ -14,7 +14,6 @@ const AdminPanel = ({ data }) => {
       columns={adminTableCoulmns}
       pageSize={5}
       rowsPerPageOptions={[5]}
-      checkboxSelection
       getRowId={(row) => row.email}
     />
   );
